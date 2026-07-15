@@ -1,0 +1,18 @@
+schema_version = "1.0.0"
+
+id = "od_copy_paste_external"
+version = "2.0.0"
+name = "OD Copy Paste External"
+tagline = "Copy and paste mesh geometry between 3D applications"
+maintainer = "Emilien Etadam"
+type = "add-on"
+
+website = "https://github.com/Emilien-Etadam/3D-Copy-Paste"
+tags = ["Object", "Import-Export"]
+
+blender_version_min = "4.2.0"
+
+license = ["SPDX:Apache-2.0"]
+
+[permissions]
+files = "Read/write the ODVertexData.txt exchange file in the system temp directory (or OD_CPE_PATH)"
