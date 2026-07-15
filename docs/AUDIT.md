@@ -16,8 +16,8 @@ the format, and the upstream issues that relate to them.
 | Blender (`Blender310/`) | yes | yes | verts, polys (FACE only), weights, morphs (shape keys), UVs | Blender ≥3.0 Python | Copy works on 3.x; paste partially broken (F4, F5); both broken on 4.x (F5) |
 | Blender (`Blender280/`, `Blender290/`, root) | yes | yes | same | Blender 2.7x–2.9x | Historical versions, superseded |
 | Rhino | stub | stub | verts, polys only | IronPython 2 (Rhino 5–7) | Unfinished upstream stub (F10) |
-| Houdini | yes | yes | verts, polys, weights (float point attrs), UVs | shelf tool creating embedded Python SOP | Copy fixed for py3 in `858c4c7`; **paste still py2-only** (F3) |
-| Maya | yes | yes | verts, polys, "weights" via vertex color red channel | maya.cmds, py2-era | Copy writes a corrupt header when the scene is saved (F1) |
+| Houdini | yes | yes | verts, polys, weights (float point attrs), UVs | shelf tool creating embedded Python SOP | py3 paste (F3) and temp path (F2) fixed in this fork |
+| Maya | yes | yes | verts, polys, "weights" via vertex color red channel | maya.cmds + OpenMaya | Header corruption (F1) and py2 syntax fixed in this fork; axis asymmetry remains (F16) |
 | 3ds Max | yes | yes | verts, polys | MaxPlus Python 2 | MaxPlus removed in Max 2020+; broken (#56) |
 | C4D | via OBJ | via OBJ | verts, polys, UVs | Python scripts wrapping an OBJ export/import dialog | Broken on R23+ (#57, #66) |
 | XSI | yes | yes | verts, polys, weights, morphs | XSI Python | Frozen (XSI discontinued) |
@@ -40,17 +40,23 @@ Numbered for reference from commits and later phases.
   writes the scene name immediately before `VERTICES:` with no newline
   (`f.write(sname); f.write("VERTICES:")`). With a saved scene the first line
   becomes `<scenepath>VERTICES:8`, which no parser recognizes — every paste
-  sees an empty file. Only unsaved scenes produce valid files. (Related
-  upstream: #62, #70.)
+  sees an empty file (including Maya's own, which reads the vertex count from
+  line 0). Only unsaved scenes produce valid files. (Related upstream: #62,
+  #70.) **Fixed in this fork**: the scene-name write was removed; the Maya
+  paste's remaining Python 2 syntax (`except IndexError, e`) was also ported.
 * **F2 — Houdini uses a different file path.** Both Houdini scripts use
   `tempfile.gettempdir() + os.sep + ".." + os.sep + "ODVertexData.txt"`. This
   compensates for Houdini's private `%TEMP%\houdini_temp` on Windows, but on
   Linux/macOS it resolves to the *parent* of the shared temp dir (e.g. `/`),
-  so Houdini and every other app read/write different files.
+  so Houdini and every other app read/write different files. **Fixed in this
+  fork**: both scripts now step up one level only when `gettempdir()` ends in
+  a `houdini*` directory (same approach upstream PR #22 used for XSI's
+  `xsi_temp`).
 * **F3 — Houdini paste is still Python 2.** Upstream `858c4c7` converted only
   the copy script; `Houdini_PasteFromExternal.py` still uses `xrange` inside
   the embedded SOP code and fails on Houdini 18.5+ default py3 builds. This is
-  the actual cause of open issues #64 (Houdini part) and #65.
+  the actual cause of open issues #64 (Houdini part) and #65. **Fixed in this
+  fork**: the embedded paste script is ported to Python 3.
 * **F4 — Blender paste mis-applies UVs.** The UV loop assigns sample *N* to
   loop `count % len(face.loops)` of the polygon named in the line, ignoring
   the `PNT` vertex index, and silently drops continuous-form lines
@@ -118,20 +124,28 @@ Numbered for reference from commits and later phases.
   with a reversed index lookup (`testidx[len(testpts)-1-t]`) and sorts the UV
   value list, which only round-trips for the OBJ files its sibling produced.
   The binaries are Windows-only and unbuildable from CI (PyInstaller, py2).
+* **F16 — Maya copy and paste disagree on axes.** The copy writes Maya
+  coordinates to the file unchanged (Maya is Y-up RH, matching file space),
+  but the paste rotates the built mesh 90° about X and freezes the transform
+  — i.e. it reads the file as `(x, −z, y)`, as if the target were Z-up.
+  A Maya→Maya round-trip therefore comes back rotated, and pastes from any
+  spec-conformant writer land on their side. Possibly intentional for
+  Z-up-configured Maya installs; left as-is (documented in FORMAT.md §4)
+  pending a maintainer decision.
 
 ## 3. Upstream open issues (as of 2026-07-15)
 
 | # | Title | Relevance to this fork |
 |---|---|---|
 | [#71](https://github.com/heimlich1024/OD_CopyPasteExternal/issues/71) | od_C/P needs update for Modo 17 | Modo kit is py2; Modo 16.1+ ship py3. Out of scope — Modo moves to `legacy/` unmodified |
-| [#70](https://github.com/heimlich1024/OD_CopyPasteExternal/issues/70) | Maya 2024/2025 support? | Maya scripts are py2-era + F1. Not covered by current phases |
+| [#70](https://github.com/heimlich1024/OD_CopyPasteExternal/issues/70) | Maya 2024/2025 support? | py2 syntax + F1, both fixed in this fork (F16 remains) |
 | [#69](https://github.com/heimlich1024/OD_CopyPasteExternal/issues/69) | Copying Curves data | Feature request; format has no curve section. Out of scope |
 | [#68](https://github.com/heimlich1024/OD_CopyPasteExternal/issues/68) | Any interest in Godot Engine? | Feature request; out of scope |
 | [#67](https://github.com/heimlich1024/OD_CopyPasteExternal/issues/67) | Meshing options | Feature request (NURBS meshing control). Phase 2's Rhino copy touches this: render mesh is used with an explicit warning |
 | [#66](https://github.com/heimlich1024/OD_CopyPasteExternal/issues/66) | Doesn't work with C4D | C4D OBJ-dialog wrapper broken on modern C4D. Out of scope — `legacy/` |
-| [#65](https://github.com/heimlich1024/OD_CopyPasteExternal/issues/65) | PasteFromExternal doesn't work in Houdini 19 | Root cause F3 (paste still py2); upstream fix only converted the copy script. Not covered by current phases (Houdini untouched) — documented here |
-| [#64](https://github.com/heimlich1024/OD_CopyPasteExternal/issues/64) | Not working: Blender 3.0, Houdini 19, ZBrush 2022 | Blender copy crash (no shape keys) fixed upstream in `858c4c7`; Blender paste issues remain (F4, F5) — fixed in Phase 1. Houdini part = F3. ZBrush part = compiled binary, `legacy/` |
-| [#62](https://github.com/heimlich1024/OD_CopyPasteExternal/issues/62) | Maya 2022 not running script as it should | py3 breakage + F1. Not covered by current phases |
+| [#65](https://github.com/heimlich1024/OD_CopyPasteExternal/issues/65) | PasteFromExternal doesn't work in Houdini 19 | Root cause F3 (paste still py2); upstream fix only converted the copy script. Fixed in this fork |
+| [#64](https://github.com/heimlich1024/OD_CopyPasteExternal/issues/64) | Not working: Blender 3.0, Houdini 19, ZBrush 2022 | Blender copy crash (no shape keys) fixed upstream in `858c4c7`; Blender paste issues remain (F4, F5) — fixed in Phase 1. Houdini part = F3, fixed in this fork. ZBrush part = compiled binary, `legacy/` |
+| [#62](https://github.com/heimlich1024/OD_CopyPasteExternal/issues/62) | Maya 2022 not running script as it should | py3 breakage + F1, both fixed in this fork |
 | [#59](https://github.com/heimlich1024/OD_CopyPasteExternal/issues/59) | ZBrush 2021.7 can't export, import fine | Compiled binary tooling (F15). Out of scope — `legacy/` |
 | [#57](https://github.com/heimlich1024/OD_CopyPasteExternal/issues/57) | Cinema 4D R23/S24 not working | Same as #66. Out of scope — `legacy/` |
 | [#56](https://github.com/heimlich1024/OD_CopyPasteExternal/issues/56) | 3ds Max 2022 needs updates | MaxPlus removed in Max 2020; scripts dead. Out of scope — `legacy/` |
@@ -203,7 +217,7 @@ carry format information:
   checklist of FORMAT.md §7 — mixed UV forms, `None` weights, `SUBD`/`CCSS`
   polytypes — not just the happy path.
 * **Legacy move:** ZBrush, XSI, Lightwave, Modo, Substance, 3DCoat, Unity,
-  C4D, Sketchup, Moi3D, 3DSMax move under `legacy/` unmodified. Maya and
-  Houdini are in neither the modernization phases nor the legacy list; they
-  currently stay in place untouched (F1, F2, F3 remain open upstream
-  breakage) pending a maintainer decision.
+  C4D, Sketchup, Moi3D, 3DSMax move under `legacy/` unmodified. **Maya and
+  Houdini stay at the top level** (maintainer decision, 2026-07-15) and
+  received targeted fixes in this fork for F1, F2 and F3; the Maya axis
+  asymmetry (F16) is documented but deliberately left unchanged.

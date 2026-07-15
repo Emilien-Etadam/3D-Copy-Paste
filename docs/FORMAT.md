@@ -195,7 +195,7 @@ Per-application conversions observed in the historical implementations:
 | 3ds Max | Z-up RH | `(x, z, -y)` | `(x, -z, y)` | unchanged |
 | Rhino | Z-up RH | `(x, z, -y)` | `(x, -z, y)` | unchanged |
 | Houdini | Y-up RH | `(x, y, z)` | `(x, y, z)` | reversed both ways (Houdini front-face winding is opposite) |
-| Maya | Y-up RH | `(x, y, z)` | `(x, y, z)` | unchanged |
+| Maya | Y-up RH | `(x, y, z)` | `(x, −z, y)` — inconsistent with its own write, see AUDIT F16 | unchanged |
 | Sketchup (paste only) | Z-up RH | — | `(x, -z, y)` ×100 | unchanged |
 | XSI | Y-up RH | `(x, y, z)` | `(x, y, z)` | unchanged |
 | OBJ converters (ZBrush, Substance, 3D-Coat, Moi3D) | OBJ | identity | identity | unchanged |
