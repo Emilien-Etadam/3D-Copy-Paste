@@ -7,7 +7,13 @@ hou.node('obj/geoIn'+str(offset)+'/ImportScript/').setParms({"python": '''
 # encoding: utf-8
 import tempfile, os, random, sys, re
 
-filePath = tempfile.gettempdir() + os.sep + ".." + os.sep + "ODVertexData.txt" #this is the temp file where everything is stored
+#this is the temp file where everything is stored
+tempDir = os.path.normpath(tempfile.gettempdir())
+if "houdini" in os.path.basename(tempDir).lower():
+    # Houdini redirects its temp dir (e.g. %TEMP%/houdini_temp); step up one
+    # level so every application shares the same ODVertexData.txt
+    tempDir = os.path.dirname(tempDir)
+filePath = os.path.join(tempDir, "ODVertexData.txt")
 #print filePath
 
 f = open(filePath, "r")
@@ -37,7 +43,7 @@ for line in lines:
 #Create Points
 points = []
 for verts in vertline:
-    for i in xrange(verts[1] + 1, verts[1] + verts[0] + 1):
+    for i in range(verts[1] + 1, verts[1] + verts[0] + 1):
         x = lines[i].split(" ")
         pos = [ float(x[0]), float(x[1]), float(x[2].strip()) ]
         pt = geo.createPoint()
@@ -50,7 +56,7 @@ pVertex = []
 ppVertex = {}
 for polygons in polyline:
     cnt = 0
-    for i in xrange(polygons[1] + 1, polygons[1] + polygons[0] + 1):
+    for i in range(polygons[1] + 1, polygons[1] + polygons[0] + 1):
         pts = []
         surf = (lines[i].split(";;")[1]).strip()
         surf = re.sub(r"[^a-zA-Z0-9]", lambda m: "_{:02x}".format(ord(m.group())), surf)

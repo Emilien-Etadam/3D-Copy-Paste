@@ -13,7 +13,12 @@ else:
 # encoding: utf-8
 import tempfile, os, random, sys, re
 
-filePath = tempfile.gettempdir() + os.sep + ".." + os.sep + "ODVertexData.txt"
+tempDir = os.path.normpath(tempfile.gettempdir())
+if "houdini" in os.path.basename(tempDir).lower():
+    # Houdini redirects its temp dir (e.g. %TEMP%/houdini_temp); step up one
+    # level so every application shares the same ODVertexData.txt
+    tempDir = os.path.dirname(tempDir)
+filePath = os.path.join(tempDir, "ODVertexData.txt")
 
 node = hou.pwd()
 geo = node.geometry()
