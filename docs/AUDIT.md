@@ -137,7 +137,60 @@ Numbered for reference from commits and later phases.
 | [#56](https://github.com/heimlich1024/OD_CopyPasteExternal/issues/56) | 3ds Max 2022 needs updates | MaxPlus removed in Max 2020; scripts dead. Out of scope — `legacy/` |
 | [#3](https://github.com/heimlich1024/OD_CopyPasteExternal/issues/3) | Morph/Blendshape support for Maya | Feature request; out of scope |
 
-## 4. Consequences for the next phases
+## 4. Upstream pull requests (complete history)
+
+Upstream has **no open PRs**; 10 closed. Merged ones are already in this
+fork's baseline. Relevant for format archaeology:
+
+| PR | Title | State | Format relevance |
+|---|---|---|---|
+| [#73](https://github.com/heimlich1024/OD_CopyPasteExternal/pull/73) | LW_CopyPasteExternal.py updated for LW 2025.0.x | closed unmerged (Dec 2025, by its author) | API-level SWIG fixes for LW 2025; the only post-abandonment contribution. Worth revisiting if Lightwave ever leaves `legacy/` |
+| [#58](https://github.com/heimlich1024/OD_CopyPasteExternal/pull/58) | copy morph shapes from object instead of all objects | merged | Blender copy: morphs read from the active object only |
+| [#44](https://github.com/heimlich1024/OD_CopyPasteExternal/pull/44) | changes to run on blender version 2.80 | merged | Origin of the `Blender280/` variant |
+| [#43](https://github.com/heimlich1024/OD_CopyPasteExternal/pull/43) | Fixed Vertex Normal Support In Modo | merged | **Origin of the Modo `VERTEXNORMALS` dialect** (F6) and of the post-paste normal-map selection bug (F7) |
+| [#36](https://github.com/heimlich1024/OD_CopyPasteExternal/pull/36) | Add paste support for UVs, materials, preferences, and undo | merged | Unity paste features |
+| [#35](https://github.com/heimlich1024/OD_CopyPasteExternal/pull/35) | Unity support | merged | Unity initial implementation |
+| [#26](https://github.com/heimlich1024/OD_CopyPasteExternal/pull/26) | Lw pntvpmap | merged | Lightwave discontinuous-UV write path (`pntVPMap`) |
+| [#24](https://github.com/heimlich1024/OD_CopyPasteExternal/pull/24) | Morphs for Pre-Lightwave 2015 did not have negative z values | merged | Confirms the LW morph-delta Z negation of FORMAT.md §4 — pre-2015 scripts lacked it and produced mirrored morphs |
+| [#22](https://github.com/heimlich1024/OD_CopyPasteExternal/pull/22) | Temp path fix | merged | XSI strips `xsi_temp` segments from `gettempdir()` — same redirected-temp-dir problem Houdini works around with `gettempdir()/..` (F2). Precedent for making the path explicitly configurable (`OD_CPE_PATH`) |
+| [#14](https://github.com/heimlich1024/OD_CopyPasteExternal/pull/14) | Initial XSI support | merged | XSI initial implementation |
+
+## 5. Notable closed upstream issues
+
+36 issues are closed upstream (full sweep done 2026-07-15; remaining gaps in
+the issue numbering are PRs or deleted/spam entries). Most are
+version-breakage reports superseded by the open ones in §3. The ones that
+carry format information:
+
+* [#4](https://github.com/heimlich1024/OD_CopyPasteExternal/issues/4) /
+  [#5](https://github.com/heimlich1024/OD_CopyPasteExternal/issues/5) /
+  [#6](https://github.com/heimlich1024/OD_CopyPasteExternal/issues/6)
+  (May 2017) — introduction of **discontinuous UV support** in Houdini,
+  Blender and Modo; the historical reason the `UV` section has two line
+  forms (FORMAT.md §3.5).
+* [#54](https://github.com/heimlich1024/OD_CopyPasteExternal/issues/54) — a
+  Wings3D plugin developer asked how the mixed continuous/discontinuous UV
+  listing in `docs/datafile_example.txt` should be interpreted; closed
+  without a recorded answer. Exactly the ambiguity FORMAT.md §3.5 now
+  resolves (the sample is Lightwave-style output; readers must honor
+  `PLY`/`PNT` indices).
+* [#60](https://github.com/heimlich1024/OD_CopyPasteExternal/issues/60) —
+  earlier duplicate of #65 (Houdini 19 paste, F3), closed without fix.
+* [#8](https://github.com/heimlich1024/OD_CopyPasteExternal/issues/8) —
+  Maya→Modo copy error (2017), consistent with the F1 header corruption.
+* [#34](https://github.com/heimlich1024/OD_CopyPasteExternal/issues/34) —
+  antivirus flagged the checked-in PyInstaller `.exe` converters as a
+  trojan; supports F15's concern about unbuildable binaries in the repo.
+* [#12](https://github.com/heimlich1024/OD_CopyPasteExternal/issues/12) /
+  [#37](https://github.com/heimlich1024/OD_CopyPasteExternal/issues/37) —
+  multiple-object copy/paste requested and never implemented; the format
+  remains one-mesh-per-file (F14, FORMAT.md §5).
+* [#1](https://github.com/heimlich1024/OD_CopyPasteExternal/issues/1) —
+  Blender paste duplicated vmaps on repeated paste; the reason the Blender
+  paste clears vertex groups/shape keys/UV layers before applying new ones
+  (behavior Phase 1 must preserve).
+
+## 6. Consequences for the next phases
 
 * **Phase 1 (Blender 4.2+):** fixes F4, F5, F12(read side), honors both UV
   forms and `None` encodings (F9), writes spec-canonical output
