@@ -67,9 +67,7 @@ def main():
         global exportedObj
 
         f = open(exportFilename, "w")
-        sname = cmds.file(q=True, sceneName=True)
 
-        f.write(sname)
         f.write("VERTICES:")
         f.write(str(exportedObj.vertexCount))
         f.write("\n")

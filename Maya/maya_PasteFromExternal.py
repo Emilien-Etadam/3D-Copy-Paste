@@ -190,8 +190,8 @@ def main():
                 try:
                     pm.select(mesh.vtxFace[vert_id][polygon_id])
                     pm.polyNormalPerVertex(xyz=vertex_normal_vector)
-                except IndexError, e:
-                    print e
+                except IndexError as e:
+                    print(e)
 
         cmds.select(all=True, hierarchy=True)
         cmds.select(current_objs, deselect=True)
