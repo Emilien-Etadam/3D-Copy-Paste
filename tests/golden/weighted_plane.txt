@@ -1,0 +1,55 @@
+VERTICES:9
+-1.0 0.0 -1.0
+-1.0 0.0 0.0
+-1.0 0.0 1.0
+0.0 0.0 -1.0
+0.0 0.0 0.0
+0.0 0.0 1.0
+1.0 0.0 -1.0
+1.0 0.0 0.0
+1.0 0.0 1.0
+POLYGONS:4
+0,1,4,3;;Checker;;FACE
+1,2,5,4;;Checker;;FACE
+3,4,7,6;;Checker;;FACE
+4,5,8,7;;Checker;;FACE
+WEIGHT:edge_falloff
+1.0
+0.5
+1.0
+0.5
+None
+0.5
+1.0
+0.5
+1.0
+WEIGHT:left_side
+1.0
+1.0
+1.0
+0.5
+0.5
+0.5
+None
+None
+None
+MORPH:bump
+None
+None
+None
+None
+0.0 0.5 0.0
+None
+None
+None
+None
+UV:planar:9
+0.0 0.0:PNT:0
+0.0 0.5:PNT:1
+0.0 1.0:PNT:2
+0.5 0.0:PNT:3
+0.5 0.5:PNT:4
+0.5 1.0:PNT:5
+1.0 0.0:PNT:6
+1.0 0.5:PNT:7
+1.0 1.0:PNT:8
