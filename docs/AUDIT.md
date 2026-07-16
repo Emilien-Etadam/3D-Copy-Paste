@@ -17,7 +17,7 @@ the format, and the upstream issues that relate to them.
 | Blender (`Blender280/`, `Blender290/`, root) | yes | yes | same | Blender 2.7x–2.9x | Historical versions, superseded |
 | Rhino | yes | yes | verts, polys (n-gons via fan+ngon), UVs (per-vertex), units | CPython (Rhino 8 ScriptEditor) | Rewritten in Phase 2 (was an unfinished stub, F10) |
 | Houdini | yes | yes | verts, polys, weights (float point attrs), UVs | shelf tool creating embedded Python SOP | py3 paste (F3) and temp path (F2) fixed in this fork |
-| Maya | yes | yes | verts, polys, "weights" via vertex color red channel | maya.cmds + OpenMaya | Header corruption (F1) and py2 syntax fixed in this fork; axis asymmetry remains (F16) |
+| Maya | yes | yes | verts, polys, "weights" via vertex color red channel | maya.cmds + OpenMaya | Header corruption (F1), py2 syntax and paste rotation (F16) fixed in this fork |
 | 3ds Max | yes | yes | verts, polys | MaxPlus Python 2 | MaxPlus removed in Max 2020+; broken (#56) |
 | C4D | via OBJ | via OBJ | verts, polys, UVs | Python scripts wrapping an OBJ export/import dialog | Broken on R23+ (#57, #66) |
 | XSI | yes | yes | verts, polys, weights, morphs | XSI Python | Frozen (XSI discontinued) |
@@ -131,10 +131,11 @@ Numbered for reference from commits and later phases.
   coordinates to the file unchanged (Maya is Y-up RH, matching file space),
   but the paste rotates the built mesh 90° about X and freezes the transform
   — i.e. it reads the file as `(x, −z, y)`, as if the target were Z-up.
-  A Maya→Maya round-trip therefore comes back rotated, and pastes from any
-  spec-conformant writer land on their side. Possibly intentional for
-  Z-up-configured Maya installs; left as-is (documented in FORMAT.md §4)
-  pending a maintainer decision.
+  A Maya→Maya round-trip therefore came back rotated, and pastes from any
+  spec-conformant writer landed on their side. **Fixed in this fork**: the
+  paste no longer rotates (identity mapping, matching the copy and FORMAT.md
+  §4). Users running Maya configured Z-up can rotate the pasted object 90°
+  about X manually — the old behavior baked that rotation for everyone.
 
 ## 3. Upstream open issues (as of 2026-07-15)
 

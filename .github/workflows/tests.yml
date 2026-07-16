@@ -1,0 +1,56 @@
+name: tests
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  format-unit:
+    name: Format unit tests + compile checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compile maintained scripts
+        run: |
+          python -m py_compile \
+            Blender/od_copy_paste_external/__init__.py \
+            Blender/od_copy_paste_external/odformat.py \
+            Rhino/Rhino_CopyToExternal.py \
+            Rhino/Rhino_PasteFromExternal.py \
+            Maya/maya_ExportToExternal.py \
+            Maya/maya_PasteFromExternal.py \
+            Houdini/Houdini_CopyToExternal.py \
+            Houdini/Houdini_PasteFromExternal.py \
+            tests/test_blender_roundtrip.py \
+            tests/test_odformat.py
+      - name: odformat unit tests
+        run: python tests/test_odformat.py
+
+  blender-roundtrip:
+    name: Blender 4.2 headless round-trip
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install standalone bpy (Blender 4.2 LTS)
+        run: pip install "bpy==4.2.*"
+      - name: Round-trip golden files
+        run: python tests/test_blender_roundtrip.py
+
+  package-extension:
+    name: Package Blender extension
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build extension zip
+        run: cd Blender && zip -r od_copy_paste_external.zip od_copy_paste_external
+      - uses: actions/upload-artifact@v4
+        with:
+          name: od_copy_paste_external
+          path: Blender/od_copy_paste_external.zip

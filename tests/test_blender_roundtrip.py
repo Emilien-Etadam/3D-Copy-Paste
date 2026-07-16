@@ -195,4 +195,11 @@ def main():
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    code = main()
+    sys.stdout.flush()
+    sys.stderr.flush()
+    # Skip interpreter teardown: the standalone bpy module is known to
+    # segfault during finalization (after the tests have already passed),
+    # and under the blender binary this also makes the exit code reflect
+    # the test result instead of always being 0.
+    os._exit(code)
