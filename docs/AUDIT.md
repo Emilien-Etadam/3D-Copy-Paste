@@ -17,7 +17,7 @@ the format, and the upstream issues that relate to them.
 | Blender (`Blender280/`, `Blender290/`, root) | yes | yes | same | Blender 2.7x–2.9x | Historical versions, superseded |
 | Rhino | yes | yes | verts, polys (n-gons via fan+ngon), UVs (per-vertex), units | CPython (Rhino 8 ScriptEditor) | Rewritten in Phase 2 (was an unfinished stub, F10) |
 | Houdini | yes | yes | verts, polys, weights (float point attrs), UVs | shelf tool creating embedded Python SOP | py3 paste (F3) and temp path (F2) fixed in this fork |
-| Maya | yes | yes | verts, polys, "weights" via vertex color red channel | maya.cmds + OpenMaya | Header corruption (F1), py2 syntax and paste rotation (F16) fixed in this fork |
+| Maya | yes | yes | verts, polys (n-gons), materials, UV sets (discontinuous), skin weights (copy), blend shapes | OpenMaya 2.0, Python 3 (Maya 2022+) | Rewritten in Phase 4 (after F1/F16 fixes); cm/m unit conversion added |
 | 3ds Max | yes | yes | verts, polys | MaxPlus Python 2 | MaxPlus removed in Max 2020+; broken (#56) |
 | C4D | via OBJ | via OBJ | verts, polys, UVs | Python scripts wrapping an OBJ export/import dialog | Broken on R23+ (#57, #66) |
 | XSI | yes | yes | verts, polys, weights, morphs | XSI Python | Frozen (XSI discontinued) |
