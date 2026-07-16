@@ -11,6 +11,42 @@ import bpy
 
 from . import odformat
 
+class ODCopyPasteExternalPreferences(bpy.types.AddonPreferences):
+    bl_idname = __package__
+
+    exchange_dir: bpy.props.StringProperty(
+        name="Exchange Directory",
+        description=(
+            "Directory for the ODVertexData.txt exchange file (e.g. a network "
+            "share shared with other machines). Leave empty to use the "
+            "OD_CPE_PATH environment variable or the system temp directory"
+        ),
+        subtype='DIR_PATH',
+        default="",
+    )
+
+    def draw(self, context):
+        layout = self.layout
+        layout.prop(self, "exchange_dir")
+        layout.label(text="Exchange file: " + _data_file_path(), translate=False)
+
+
+def _data_file_path():
+    """Resolve the exchange file: OD_CPE_PATH > addon preference > temp dir.
+
+    The environment variable wins so that pipelines and headless tests keep
+    a deterministic location regardless of per-user preferences.
+    """
+    if os.environ.get(odformat.ENV_VAR):
+        return odformat.data_file_path()
+    addon = bpy.context.preferences.addons.get(__package__)
+    if addon is not None:
+        directory = getattr(addon.preferences, "exchange_dir", "")
+        if directory:
+            return os.path.join(bpy.path.abspath(directory), odformat.FILE_NAME)
+    return odformat.data_file_path()
+
+
 # File space is right-handed Y-up (OBJ convention); Blender is Z-up.
 # The mapping is a pure rotation, so polygon winding is unchanged.
 
@@ -85,7 +121,7 @@ class OBJECT_OT_od_copy_to_external(bpy.types.Operator):
                     )
             od.uv_maps[layer.name] = samples
 
-        path = odformat.data_file_path()
+        path = _data_file_path()
         try:
             text = odformat.serialize(od)
         except odformat.ODFormatError as exc:
@@ -117,7 +153,7 @@ class OBJECT_OT_od_paste_from_external(bpy.types.Operator):
         return context.mode == 'OBJECT'
 
     def execute(self, context):
-        path = odformat.data_file_path()
+        path = _data_file_path()
         if not os.path.exists(path):
             self.report({'ERROR'}, "No data file at %s" % path)
             return {'CANCELLED'}
@@ -236,6 +272,7 @@ def _menu_paste(self, context):
 
 
 _classes = (
+    ODCopyPasteExternalPreferences,
     OBJECT_OT_od_copy_to_external,
     OBJECT_OT_od_paste_from_external,
 )

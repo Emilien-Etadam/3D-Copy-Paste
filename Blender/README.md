@@ -30,6 +30,12 @@ By default the file is `ODVertexData.txt` in the system temp directory —
 the same location every other implementation uses, so cross-application
 copy/paste works with no configuration.
 
-Set the **`OD_CPE_PATH`** environment variable to a directory to relocate
-the file (e.g. a network share or synced folder to exchange geometry across
-machines). Blender must be started with the variable in its environment.
+Two ways to relocate it (e.g. a network share or synced folder to exchange
+geometry across machines):
+
+1. **Extension preferences** — *Preferences ▸ Add-ons ▸ OD Copy Paste
+   External ▸ Exchange Directory*. The effective file path is shown under
+   the field.
+2. **`OD_CPE_PATH` environment variable** — takes precedence over the
+   preference (useful for pipelines and headless runs); Blender must be
+   started with the variable in its environment.
