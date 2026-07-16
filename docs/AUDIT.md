@@ -15,7 +15,7 @@ the format, and the upstream issues that relate to them.
 | Lightwave | yes | yes (Modeler + Layout) | verts, polys (FACE/SUBD/CCSS), weights, morphs, UVs, vertex normals (write-only) | LW PCore Python 2 | Works on LW 2015–2019; py2 only |
 | Blender (`Blender310/`) | yes | yes | verts, polys (FACE only), weights, morphs (shape keys), UVs | Blender ≥3.0 Python | Copy works on 3.x; paste partially broken (F4, F5); both broken on 4.x (F5) |
 | Blender (`Blender280/`, `Blender290/`, root) | yes | yes | same | Blender 2.7x–2.9x | Historical versions, superseded |
-| Rhino | stub | stub | verts, polys only | IronPython 2 (Rhino 5–7) | Unfinished upstream stub (F10) |
+| Rhino | yes | yes | verts, polys (n-gons via fan+ngon), UVs (per-vertex), units | CPython (Rhino 8 ScriptEditor) | Rewritten in Phase 2 (was an unfinished stub, F10) |
 | Houdini | yes | yes | verts, polys, weights (float point attrs), UVs | shelf tool creating embedded Python SOP | py3 paste (F3) and temp path (F2) fixed in this fork |
 | Maya | yes | yes | verts, polys, "weights" via vertex color red channel | maya.cmds + OpenMaya | Header corruption (F1) and py2 syntax fixed in this fork; axis asymmetry remains (F16) |
 | 3ds Max | yes | yes | verts, polys | MaxPlus Python 2 | MaxPlus removed in Max 2020+; broken (#56) |
@@ -99,7 +99,10 @@ Numbered for reference from commits and later phases.
   triangle as a quad with a repeated corner) by *string* comparison of the
   whole face. Paste builds only tri/quad faces (n-gons are silently dropped),
   ignores UV/weight/morph sections and polytype, and is IronPython-2-only
-  (`xrange`). Replaced wholesale in Phase 2.
+  (`xrange`). **Replaced wholesale in Phase 2** with RhinoCommon/CPython
+  scripts for Rhino 8 (render mesh with warning for Breps, n-gon fan +
+  Rhino ngon grouping, per-vertex UVs, model-unit/meter conversion,
+  `OD_CPE_PATH`).
 * **F11 — Informal docs drift from the code.** `docs/datafile.txt` documents
   the UV lines without the literal `PLY:`/`PNT:` tags and `VERTEXNORMALS`
   with a single argument; the upstream README calls the file
