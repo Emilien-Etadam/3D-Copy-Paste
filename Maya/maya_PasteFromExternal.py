@@ -198,8 +198,6 @@ def main():
         new_objs = cmds.ls(selection=True, transforms=True)
         cmds.select(new_objs, replace=True)
         # cmds.sets(new_objs, e=True, forceElement="initialShadingGroup")
-        cmds.rotate('90deg', 0, 0, r=True)
-        pm.general.makeIdentity(apply=True, r=1)
         cmds.rename(new_objs, import_object_name)
 
     imported_object = IObjectDef()
