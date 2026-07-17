@@ -9,9 +9,13 @@ them.
 This repository is a **maintained fork** of
 [heimlich1024/OD_CopyPasteExternal](https://github.com/heimlich1024/OD_CopyPasteExternal)
 by Oliver Hotz (Apache 2.0), which is no longer developed. The fork
-modernizes the Blender and Rhino implementations, fixes Maya and Houdini,
-documents the interchange format, and preserves everything else as-is under
-[`legacy/`](legacy/).
+modernizes the implementations application by application (Blender, Rhino
+and Maya are rewritten; Houdini is fixed; C4D, 3ds Max, ZBrush, Sketchup and
+Moi3D repairs are on the roadmap, along with new Plasticity, SolidWorks,
+Godot and Light Tracer integrations), documents the interchange format, and
+keeps the not-yet-repaired implementations as-is under [`legacy/`](legacy/).
+Implementations for discontinued applications (XSI, Modo, Lightwave) were
+removed — files they wrote still paste correctly everywhere.
 
 ## How it works
 
@@ -36,10 +40,11 @@ correctly — backward compatibility is a hard requirement of this fork.
 | **Maya** | [`Maya/`](Maya/) | verts, polys, weights (vertex colors) | Legacy scripts with targeted fixes (valid headers, Python 3, spec-conformant axes) |
 | **Houdini** | [`Houdini/`](Houdini/) | verts, polys, weights, UVs | Legacy shelf tools with targeted fixes (Python 3 paste, shared temp path) |
 
-Everything else (Modo, Lightwave, ZBrush, XSI, C4D, 3ds Max, Sketchup,
-Moi3D, Substance Painter, 3D-Coat, Unity) lives **unmodified and
-unmaintained** in [`legacy/`](legacy/) — see
-[`legacy/README.md`](legacy/README.md) for the state of each.
+Everything else (ZBrush, C4D, 3ds Max, Sketchup, Moi3D, Substance Painter,
+3D-Coat, Unity) lives **unmodified** in [`legacy/`](legacy/) pending repair —
+see [`legacy/README.md`](legacy/README.md) for the state and plan of each.
+Implementations for discontinued applications (XSI, Modo, Lightwave) were
+removed in July 2026 and remain available in git history.
 
 ## Documentation
 
