@@ -1,0 +1,13 @@
+; Minimal Godot 4 project so the addon can be opened, tested headless in CI,
+; and copied from `addons/` into user projects.
+
+config_version=5
+
+[application]
+
+config/name="OD Copy Paste External"
+config/features=PackedStringArray("4.4")
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/od_copy_paste_external/plugin.cfg")

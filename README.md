@@ -42,6 +42,7 @@ correctly — backward compatibility is a hard requirement of this fork.
 | **Any OBJ application** | [`tools/`](tools/) | verts, polys (n-gons), materials, UVs | Cross-platform `od_obj.py` CLI + `od_watch.py` live OBJ mirror — Plasticity, Light Tracer Render, ZBrush/Substance/3D-Coat workflows. See [`tools/README.md`](tools/README.md) |
 | **Plasticity** | [`Plasticity/`](Plasticity/) | verts, triangles, per-object surfaces | Live copy via the bridge WebSocket (`plasticity_copy.py --watch`), paste via OBJ. See [`Plasticity/README.md`](Plasticity/README.md) |
 | **SolidWorks** | [`SolidWorks/`](SolidWorks/) | exact B-rep via the `ODSolidData.x_t` Parasolid side-channel | VBA copy/paste macros; pairs natively with Plasticity. See [`SolidWorks/README.md`](SolidWorks/README.md) |
+| **Godot 4.4+** | [`Godot/`](Godot/) | verts, triangles (n-gon fan), surfaces/materials, UVs | Editor addon, Tool-menu commands, CI-tested headless. See [`Godot/README.md`](Godot/README.md) |
 
 Everything else (ZBrush, C4D, 3ds Max, Sketchup, Moi3D, Substance Painter,
 3D-Coat, Unity) lives **unmodified** in [`legacy/`](legacy/) pending repair —
