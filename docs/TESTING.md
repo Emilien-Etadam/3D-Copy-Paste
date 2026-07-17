@@ -167,6 +167,21 @@ Automated coverage: the CI job *Godot headless round-trip* runs
 5. Paste the weighted plane: the output log lists the skipped
    weight/morph maps.
 
+## Cinema 4D — manual checklist
+
+1. Load both scripts in the Script Manager; run copy with nothing selected:
+   explanatory dialog (mentions pressing `C` for parametric objects).
+2. Copy an editable cube with a material and a Vertex Map tag: the file has
+   `VERTICES:8`, the material name as surface, a `WEIGHT` section, and
+   coordinates in meters (200 cm cube → `1.0` extents).
+3. Paste the golden cube: an `ODCopy` object appears, right way round
+   (winding/Z-mirror round-trip), with a `Default` material and correct UVs
+   (checker texture in UVW projection).
+4. Paste the weighted plane: `Checker` material, Vertex Map tag visible in
+   weight-paint display, morph skip message in the console.
+5. C4D↔Blender round-trip: orientation, UVs and material names must
+   survive both directions.
+
 ## Cross-application spot checks
 
 With any two of {Blender, Rhino, a legacy app}: copy a cube with a UV map in
