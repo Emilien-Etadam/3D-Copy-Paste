@@ -26,9 +26,12 @@ jobs:
             Houdini/Houdini_CopyToExternal.py \
             Houdini/Houdini_PasteFromExternal.py \
             tests/test_blender_roundtrip.py \
-            tests/test_odformat.py
+            tests/test_odformat.py \
+            tests/test_rhino_mock.py
       - name: odformat unit tests
         run: python tests/test_odformat.py
+      - name: Rhino scripts unit tests (mocked RhinoCommon)
+        run: python tests/test_rhino_mock.py
 
   blender-roundtrip:
     name: Blender 4.2 headless round-trip
