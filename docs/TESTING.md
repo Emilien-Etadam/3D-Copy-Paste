@@ -122,6 +122,17 @@ prefixed `OD_CopyPasteExternal:`.
    orientation must match the original exactly.
 9. **`OD_CPE_PATH`**: set it, restart Maya, verify both scripts use it.
 
+## Plasticity — manual checklist
+
+1. Enable the bridge in Plasticity, model a box, run
+   `python3 Plasticity/plasticity_copy.py`: console reports 1 object, and
+   pasting in Blender/Rhino gives the box at the right size and orientation.
+2. `--watch`: edit the box in Plasticity; the exchange file timestamp must
+   change within a second and re-pasting shows the edit.
+3. Hidden objects are excluded by default; `--all` includes them.
+4. OBJ round-trip: export OBJ from Plasticity, `tools/od_obj.py --from-obj`,
+   paste elsewhere; then the reverse with `--to-obj` + File ▸ Import.
+
 ## Cross-application spot checks
 
 With any two of {Blender, Rhino, a legacy app}: copy a cube with a UV map in
