@@ -218,7 +218,7 @@ carry format information:
   implementations per FORMAT.md (n-gon fan on paste, render mesh + warning on
   copy of Breps — cf. #67), adds `OD_CPE_PATH`.
 * **Phase 3 (tests):** golden files must exercise the reader-conformance
-  checklist of FORMAT.md §7 — mixed UV forms, `None` weights, `SUBD`/`CCSS`
+  checklist of FORMAT.md §8 — mixed UV forms, `None` weights, `SUBD`/`CCSS`
   polytypes — not just the happy path.
 * **Legacy move:** ZBrush, XSI, Lightwave, Modo, Substance, 3DCoat, Unity,
   C4D, Sketchup, Moi3D, 3DSMax move under `legacy/` unmodified. **Maya and

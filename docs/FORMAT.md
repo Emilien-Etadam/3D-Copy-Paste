@@ -274,7 +274,28 @@ writer output. A Modo/Blender-style writer would emit the same information as
 For a fuller example including `WEIGHT` and `MORPH` sections, see
 `docs/datafile_example.txt` (the upstream original, unmodified).
 
-## 7. Reader conformance checklist
+## 7. The ODSolidData side-channel (exact B-rep geometry)
+
+`ODVertexData.txt` carries meshes. For CAD applications that share a
+B-rep kernel format, this fork defines a **parallel side-channel** with the
+same copy/paste semantics:
+
+* File name: **`ODSolidData.x_t`** (Parasolid text transmit).
+* Location: the same exchange directory as `ODVertexData.txt`
+  (`OD_CPE_PATH` or the system temp directory).
+* Semantics: "copy" overwrites the file with the source application's
+  native Parasolid export; "paste" imports it natively. One payload per
+  file, last writer wins — exactly like the mesh channel.
+
+The `.x_t` content itself is Siemens' Parasolid format and is **not**
+specified here: implementations MUST use their host application's native
+Parasolid import/export (Plasticity File ▸ Export/Import, the SolidWorks
+macros in [`SolidWorks/`](../SolidWorks/), Rhino's `.x_t` import, …) and
+MUST NOT attempt to parse or generate it themselves. The side-channel is
+independent of the mesh channel: applications without Parasolid support
+simply ignore it, and copying to one channel does not clear the other.
+
+## 8. Reader conformance checklist
 
 A modern reader MUST:
 
