@@ -132,5 +132,6 @@ static func serialize(data: Dictionary) -> String:
 
 
 static func _num(value: float) -> String:
-	# Full float precision without scientific notation surprises
-	return ("%.9g" % value)
+	# GDScript's % operator has no %g: String.num gives plain decimal with
+	# trailing zeros trimmed, 9 decimals of precision (float32 mesh data)
+	return String.num(value, 9)

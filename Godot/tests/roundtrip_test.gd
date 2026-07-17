@@ -36,6 +36,7 @@ func _roundtrip(path: String, label: String) -> bool:
 
 	var mesh_instance := ODCopyPaste.build_mesh_instance(golden)
 	var extracted := ODCopyPaste.extract_data(mesh_instance)
+	mesh_instance.free()
 	var reparsed := ODFormat.parse(ODFormat.serialize(extracted))
 	if reparsed.is_empty():
 		printerr("FAIL %s: serialized output does not reparse" % label)
