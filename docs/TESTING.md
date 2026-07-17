@@ -150,6 +150,23 @@ prefixed `OD_CopyPasteExternal:`.
 6. The mesh channel is untouched: `ODVertexData.txt` copy/paste keeps
    working independently.
 
+## Godot — manual checklist
+
+Automated coverage: the CI job *Godot headless round-trip* runs
+`Godot/tests/roundtrip_test.gd` against the golden files. Manual pass:
+
+1. Enable the plugin (*Project ▸ Project Settings ▸ Plugins*); both entries
+   appear under *Project ▸ Tools*.
+2. Paste the golden cube in a 3D scene: an `ODCopy` MeshInstance3D appears,
+   selected, right way up, with a `Default`-named material and correct UVs
+   (assign a checker texture to verify).
+3. **Winding**: faces must be visible from outside (Godot culls clockwise
+   back faces — an inverted mesh looks inside-out).
+4. Copy a Godot mesh (e.g. a `BoxMesh` converted to `ArrayMesh`) and paste
+   it in Blender: orientation, UVs and material name must survive.
+5. Paste the weighted plane: the output log lists the skipped
+   weight/morph maps.
+
 ## Cross-application spot checks
 
 With any two of {Blender, Rhino, a legacy app}: copy a cube with a UV map in

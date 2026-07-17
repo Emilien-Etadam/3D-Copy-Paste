@@ -58,6 +58,20 @@ jobs:
       - name: Round-trip golden files
         run: python tests/test_blender_roundtrip.py
 
+  godot-roundtrip:
+    name: Godot headless round-trip
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download Godot 4.4
+        run: |
+          curl -sSL -o godot.zip "https://github.com/godotengine/godot-builds/releases/download/4.4.1-stable/Godot_v4.4.1-stable_linux.x86_64.zip"
+          unzip -q godot.zip
+      - name: Import project
+        run: ./Godot_v4.4.1-stable_linux.x86_64 --headless --path Godot --import || true
+      - name: Round-trip golden files
+        run: ./Godot_v4.4.1-stable_linux.x86_64 --headless --path Godot --script res://tests/roundtrip_test.gd
+
   package-extension:
     name: Package Blender extension
     runs-on: ubuntu-latest
