@@ -16,7 +16,6 @@ meantime the versions here are the historical upstream code.
 | `3DCoat/` | Works on Windows via compiled `.exe` converters | Stays; the cross-platform OBJ converter CLI replaces the `.exe` route |
 | `Blender/` | Superseded by the extension in [`../Blender/`](../Blender/) | Kept for history |
 | `Moi3D/` | Windows-only via compiled `.exe` converters | **Repair scheduled**: pure-JS rewrite, no binaries |
-| `Sketchup/` | Paste-only starting point, never finished | **Repair scheduled**: full Ruby copy+paste |
 | `SubstancePainter/` | Paste-only, Windows-only compiled converter | Stays; OBJ converter CLI replaces the `.exe` route |
 | `Unity/` | Works (C# editor scripts) | Stays as-is |
 
