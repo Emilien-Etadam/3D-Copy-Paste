@@ -182,6 +182,19 @@ Automated coverage: the CI job *Godot headless round-trip* runs
 5. C4D↔Blender round-trip: orientation, UVs and material names must
    survive both directions.
 
+## 3ds Max — manual checklist
+
+1. Run the copy script with nothing selected: explanatory message box.
+2. Copy a teapot with a named material in an **inches** document: the file
+   has coordinates in meters (×0.0254), the material name as surface,
+   discontinuous UV samples, and triangles only.
+3. Paste the golden cube in a **millimeters** document: `ODCopy` appears at
+   1000 mm, right way up, `Default` material, UVs correct on map channel 1.
+4. Paste the weighted plane: `Checker` material, listener message listing
+   the skipped weight/morph maps.
+5. Max↔Blender round-trip: orientation, UVs and material names must
+   survive both directions (upstream demo video workflow).
+
 ## Cross-application spot checks
 
 With any two of {Blender, Rhino, a legacy app}: copy a cube with a UV map in

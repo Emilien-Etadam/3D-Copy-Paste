@@ -32,6 +32,9 @@ jobs:
             tests/test_c4d_mock.py \
             C4D/C4D_CopyToExternal.py \
             C4D/C4D_PasteFromExternal.py \
+            tests/test_3dsmax_mock.py \
+            3DSMax/3DSMax_CopyToExternal.py \
+            3DSMax/3DSMax_PasteFromExternal.py \
             tests/test_obj_converter.py \
             tests/test_plasticity_bridge.py \
             tools/od_obj.py \
@@ -45,6 +48,8 @@ jobs:
         run: python tests/test_maya_mock.py
       - name: C4D scripts unit tests (stubbed c4d)
         run: python tests/test_c4d_mock.py
+      - name: 3ds Max scripts unit tests (stubbed pymxs)
+        run: python tests/test_3dsmax_mock.py
       - name: OBJ converter tests
         run: python tests/test_obj_converter.py
       - name: Plasticity bridge tests
