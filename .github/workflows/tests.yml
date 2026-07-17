@@ -58,6 +58,8 @@ jobs:
         run: python tests/test_zbrush_convert.py
       - name: SketchUp logic tests (plain Ruby)
         run: ruby tests/test_sketchup_logic.rb
+      - name: Moi3D logic tests (Node)
+        run: node tests/test_moi3d_logic.js
       - name: Plasticity bridge tests
         run: python tests/test_plasticity_bridge.py
 

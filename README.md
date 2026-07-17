@@ -47,10 +47,12 @@ correctly — backward compatibility is a hard requirement of this fork.
 | **3ds Max 2021+** | [`3DSMax/`](3DSMax/) | verts, triangles, materials (MultiMaterial), UVs, unit conversion | pymxs scripts (MaxPlus is gone). See [`3DSMax/README.md`](3DSMax/README.md) |
 | **ZBrush 2021+** | [`ZBrush/`](ZBrush/) | verts, polys (n-gons), surface names, UVs (via OBJ) | ZScript + cross-platform Python converter (no more flagged `.exe`). See [`ZBrush/README.md`](ZBrush/README.md) |
 | **SketchUp 2017+** | [`Sketchup/`](Sketchup/) | verts, faces (n-gons), materials, UVs, inch/meter conversion | Full Ruby extension (copy **and** paste). See [`Sketchup/README.md`](Sketchup/README.md) |
+| **Moi3D** | [`Moi3D/`](Moi3D/) | verts, polys (n-gons), surface names, UVs (via native OBJ) | Pure JScript, no more `.exe` converters. See [`Moi3D/README.md`](Moi3D/README.md) |
 
-Everything else (Moi3D, Substance Painter,
-3D-Coat, Unity) lives **unmodified** in [`legacy/`](legacy/) pending repair —
-see [`legacy/README.md`](legacy/README.md) for the state and plan of each.
+Substance Painter, 3D-Coat and Unity still work as shipped upstream and live
+**unmodified** in [`legacy/`](legacy/) — the cross-platform
+[`tools/od_obj.py`](tools/) converter replaces their compiled `.exe` route.
+See [`legacy/README.md`](legacy/README.md).
 Implementations for discontinued applications (XSI, Modo, Lightwave) were
 removed in July 2026 and remain available in git history.
 

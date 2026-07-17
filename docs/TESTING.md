@@ -224,6 +224,18 @@ Automated coverage: the CI job *Godot headless round-trip* runs
    skipped weight/morph maps.
 5. Paste a file containing a planar n-gon: a single face, not a fan.
 
+## Moi3D — manual checklist
+
+1. Install both `.js` files in the commands folder; bind shortcut keys.
+2. **Copy**: select a solid, run `ODCopyToExternal` — the popup shows the
+   exchange path; the file contains the render mesh with n-gons and UVs.
+3. **Paste**: run `ODPasteFromExternal` after copying the golden cube from
+   another app — the cube imports at the right size and orientation.
+4. **Path check**: if the popup shows the commands folder (temp dir API
+   unavailable), set `OD_CPE_PATH` at the top of both scripts to the system
+   temp directory so other applications see the same file.
+5. Weight/morph files paste fine (sections dropped on the OBJ leg).
+
 ## Cross-application spot checks
 
 With any two of {Blender, Rhino, a legacy app}: copy a cube with a UV map in
