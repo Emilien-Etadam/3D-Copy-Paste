@@ -8,14 +8,20 @@ them.
 
 This repository is a **maintained fork** of
 [heimlich1024/OD_CopyPasteExternal](https://github.com/heimlich1024/OD_CopyPasteExternal)
-by Oliver Hotz (Apache 2.0), which is no longer developed. The fork
-modernizes the implementations application by application (Blender, Rhino
-and Maya are rewritten; Houdini is fixed; C4D, 3ds Max, ZBrush, Sketchup and
-Moi3D repairs are on the roadmap, along with new Plasticity, SolidWorks,
-Godot and Light Tracer integrations), documents the interchange format, and
-keeps the not-yet-repaired implementations as-is under [`legacy/`](legacy/).
-Implementations for discontinued applications (XSI, Modo, Lightwave) were
-removed — files they wrote still paste correctly everywhere.
+by Oliver Hotz (Apache 2.0), which is no longer developed. The fork is a
+full revival: **twelve live integrations** (Blender, Rhino, Maya, Houdini,
+Cinema 4D, 3ds Max, ZBrush, SketchUp, Moi3D — all rewritten or repaired —
+plus new Plasticity, SolidWorks and Godot support and universal OBJ tools),
+a normative specification of the interchange format, **twelve CI test
+suites**, and **no compiled binaries** anywhere (the antivirus-flagged
+`.exe` converters are gone). Implementations for discontinued applications
+(XSI, Modo, Lightwave) were removed — files they wrote still paste
+correctly everywhere.
+
+**Latest release:**
+[v3.0.0](https://github.com/Emilien-Etadam/3D-Copy-Paste/releases/latest) —
+includes the installable Blender extension zip; every other integration
+installs from this repository (see each application's README below).
 
 ## How it works
 
@@ -23,13 +29,20 @@ Every implementation reads and writes the same file, `ODVertexData.txt`, in
 the system temp directory (all applications on one machine resolve the same
 location, so copy/paste works with zero configuration). Set the
 **`OD_CPE_PATH`** environment variable to a directory to relocate the file —
-e.g. a network share or synced folder to exchange geometry between machines
-(supported by the Blender and Rhino implementations).
+e.g. a network share or synced folder to exchange geometry between machines.
+All maintained implementations honor it (Blender also exposes it as an
+add-on preference; Moi3D uses an in-script variable, as its engine cannot
+read the environment).
 
 The file format is fully specified in **[docs/FORMAT.md](docs/FORMAT.md)**:
 plain ASCII, forward-extensible sections, 0-based indices, OBJ coordinate
 conventions. Files written by any historical implementation still paste
 correctly — backward compatibility is a hard requirement of this fork.
+
+CAD applications additionally share the **`ODSolidData.x_t` Parasolid
+side-channel** (FORMAT.md §7): same location and copy/paste semantics, but
+carrying exact B-rep geometry — SolidWorks ↔ Plasticity with zero
+tessellation.
 
 ## Maintained implementations
 
@@ -37,7 +50,7 @@ correctly — backward compatibility is a hard requirement of this fork.
 |---|---|---|---|
 | **Blender 4.2+ LTS** | [`Blender/`](Blender/) | verts, polys (n-gons), materials, UVs, weights, morphs (shape keys) | Extension format (`blender_manifest.toml`); install from zip. See [`Blender/README.md`](Blender/README.md) |
 | **Rhino 8** | [`Rhino/`](Rhino/) | verts, polys (n-gons via Rhino ngons), materials on copy, UVs, model-unit conversion | CPython ScriptEditor scripts; Breps copy through their render mesh with a warning. See [`Rhino/README.md`](Rhino/README.md) |
-| **Maya** | [`Maya/`](Maya/) | verts, polys, weights (vertex colors) | Legacy scripts with targeted fixes (valid headers, Python 3, spec-conformant axes) |
+| **Maya 2022+** | [`Maya/`](Maya/) | verts, polys (n-gons), materials, UV sets, skin weights (copy), blend shapes, cm/m conversion | OpenMaya 2.0 rewrite. See [`Maya/README.md`](Maya/README.md) |
 | **Houdini** | [`Houdini/`](Houdini/) | verts, polys, weights, UVs | Legacy shelf tools with targeted fixes (Python 3 paste, shared temp path) |
 | **Any OBJ application** | [`tools/`](tools/) | verts, polys (n-gons), materials, UVs | Cross-platform `od_obj.py` CLI + `od_watch.py` live OBJ mirror — Plasticity, Light Tracer Render, ZBrush/Substance/3D-Coat workflows. See [`tools/README.md`](tools/README.md) |
 | **Plasticity** | [`Plasticity/`](Plasticity/) | verts, triangles, per-object surfaces | Live copy via the bridge WebSocket (`plasticity_copy.py --watch`), paste via OBJ. See [`Plasticity/README.md`](Plasticity/README.md) |
@@ -62,20 +75,32 @@ removed in July 2026 and remain available in git history.
   (normative), with an annotated example and a conformance checklist.
 * [docs/AUDIT.md](docs/AUDIT.md) — audit of all historical implementations:
   findings F1–F16, upstream issues and PR history.
-* [docs/TESTING.md](docs/TESTING.md) — automated Blender round-trip test and
-  the manual checklists (Rhino 8, Blender, cross-application).
+* [docs/TESTING.md](docs/TESTING.md) — the automated tests and nine manual
+  checklists (Rhino, Maya, C4D, 3ds Max, SketchUp, ZBrush, Moi3D,
+  Plasticity, SolidWorks) plus cross-application spot checks.
 
 ## Testing
 
+Twelve suites run in CI on every pull request:
+
+* **Real-application round-trips** — Blender 4.2 (standalone `bpy` module)
+  and Godot 4.4 (headless binary) paste the golden files, copy them back
+  and compare geometrically.
+* **Unit suites** — the format module, the OBJ/ZBrush/Moi3D converters
+  (Python, Node), the SketchUp logic (Ruby), and mocked-API tests for the
+  Rhino, Maya, C4D and 3ds Max scripts.
+
 ```
-python3 tests/test_odformat.py                              # format unit tests
-blender --background --python tests/test_blender_roundtrip.py   # round-trip
+python3 tests/test_odformat.py                                  # format spec
+python3 tests/test_blender_roundtrip.py                         # needs: pip install "bpy==4.2.*"
+godot --headless --path Godot --script res://tests/roundtrip_test.gd
+ruby tests/test_sketchup_logic.rb
+node tests/test_moi3d_logic.js
 ```
 
-The round-trip test also runs without a Blender install via the standalone
-bpy module (`pip install "bpy==4.2.*"`, Python 3.11). Both run in CI on every
-pull request, and CI publishes the installable Blender extension zip as a
-build artifact.
+CI also packages the installable Blender extension zip on every pull
+request, and the [release workflow](.github/workflows/release.yml)
+publishes it on `v*` tags (or manual dispatch).
 
 ## Credits & license
 
