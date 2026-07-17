@@ -14,7 +14,6 @@ meantime the versions here are the historical upstream code.
 | Directory | State | Plan |
 |---|---|---|
 | `3DCoat/` | Works on Windows via compiled `.exe` converters | Stays; the cross-platform OBJ converter CLI replaces the `.exe` route |
-| `3DSMax/` | Broken — MaxPlus API removed in 3ds Max 2020+ (upstream #56) | **Repair scheduled**: pymxs/Python 3 rewrite |
 | `Blender/` | Superseded by the extension in [`../Blender/`](../Blender/) | Kept for history |
 | `Moi3D/` | Windows-only via compiled `.exe` converters | **Repair scheduled**: pure-JS rewrite, no binaries |
 | `Sketchup/` | Paste-only starting point, never finished | **Repair scheduled**: full Ruby copy+paste |
