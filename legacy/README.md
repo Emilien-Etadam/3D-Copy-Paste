@@ -19,7 +19,6 @@ meantime the versions here are the historical upstream code.
 | `Sketchup/` | Paste-only starting point, never finished | **Repair scheduled**: full Ruby copy+paste |
 | `SubstancePainter/` | Paste-only, Windows-only compiled converter | Stays; OBJ converter CLI replaces the `.exe` route |
 | `Unity/` | Works (C# editor scripts) | Stays as-is |
-| `ZBrush/` | Export broken since ZBrush 2021.7 (upstream #59); antivirus flags the `.exe` converters (upstream #34) | **Repair scheduled**: ZScript updated to call the Python converter CLI |
 
 Removed from the tree (recoverable from git history, deleted in the 2026-07
 re-scoping because the host applications are discontinued): **XSI**

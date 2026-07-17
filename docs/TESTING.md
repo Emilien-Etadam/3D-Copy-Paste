@@ -195,6 +195,21 @@ Automated coverage: the CI job *Godot headless round-trip* runs
 5. Max↔Blender round-trip: orientation, UVs and material names must
    survive both directions (upstream demo video workflow).
 
+## ZBrush — manual checklist
+
+1. Install per `ZBrush/README.md` (Python 3 on PATH required); the two
+   buttons appear in the Zplugin palette after loading the `.txt` once.
+2. **Copy**: with a tool in Edit mode, `TOOL: CopyToExt` — the exchange
+   file appears with the tool's geometry and UVs (n-gons preserved via the
+   OBJ route).
+3. **Paste**: `TOOL: PasteFromExt` after copying the golden cube from any
+   app — the cube imports as a new tool, UVs intact (check with Texture ▸
+   UV Check).
+4. **No Python**: temporarily rename `python`/`py` and copy — the error
+   note must mention Python being missing.
+5. macOS: the `.sh` wrappers must be executable (`chmod +x` if the copy
+   lost the bit).
+
 ## Cross-application spot checks
 
 With any two of {Blender, Rhino, a legacy app}: copy a cube with a UV map in

@@ -45,8 +45,9 @@ correctly — backward compatibility is a hard requirement of this fork.
 | **Godot 4.4+** | [`Godot/`](Godot/) | verts, triangles (n-gon fan), surfaces/materials, UVs | Editor addon, Tool-menu commands, CI-tested headless. See [`Godot/README.md`](Godot/README.md) |
 | **Cinema 4D R23+** | [`C4D/`](C4D/) | verts, polys (n-gon fan), materials, UVs, weight maps (Vertex Map tags) | Native Python scripts, no OBJ dialog. See [`C4D/README.md`](C4D/README.md) |
 | **3ds Max 2021+** | [`3DSMax/`](3DSMax/) | verts, triangles, materials (MultiMaterial), UVs, unit conversion | pymxs scripts (MaxPlus is gone). See [`3DSMax/README.md`](3DSMax/README.md) |
+| **ZBrush 2021+** | [`ZBrush/`](ZBrush/) | verts, polys (n-gons), surface names, UVs (via OBJ) | ZScript + cross-platform Python converter (no more flagged `.exe`). See [`ZBrush/README.md`](ZBrush/README.md) |
 
-Everything else (ZBrush, Sketchup, Moi3D, Substance Painter,
+Everything else (Sketchup, Moi3D, Substance Painter,
 3D-Coat, Unity) lives **unmodified** in [`legacy/`](legacy/) pending repair —
 see [`legacy/README.md`](legacy/README.md) for the state and plan of each.
 Implementations for discontinued applications (XSI, Modo, Lightwave) were
