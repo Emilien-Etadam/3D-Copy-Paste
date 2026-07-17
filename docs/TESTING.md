@@ -133,6 +133,23 @@ prefixed `OD_CopyPasteExternal:`.
 4. OBJ round-trip: export OBJ from Plasticity, `tools/od_obj.py --from-obj`,
    paste elsewhere; then the reverse with `--to-obj` + File ▸ Import.
 
+## SolidWorks — manual checklist (Parasolid side-channel)
+
+1. Install both macros per `SolidWorks/README.md` (VBA import, no
+   references to configure).
+2. **Copy**: open a part with a few bodies, run `OD_CopyToExternal`;
+   expect a confirmation dialog and `ODSolidData.x_t` in `%TEMP%` (or
+   `OD_CPE_PATH`).
+3. **Paste**: run `OD_PasteFromExternal` in a fresh session; the geometry
+   opens as an imported document, exact (check a dimension).
+4. **Plasticity round-trip**: export a Plasticity model as `.x_t` to the
+   exchange path, paste in SolidWorks; then copy from SolidWorks and
+   File ▸ Import in Plasticity. Faces must remain analytic (no tessellation).
+5. **No file**: run the paste macro with no `ODSolidData.x_t` present —
+   expect the explanatory dialog, no error.
+6. The mesh channel is untouched: `ODVertexData.txt` copy/paste keeps
+   working independently.
+
 ## Cross-application spot checks
 
 With any two of {Blender, Rhino, a legacy app}: copy a cube with a UV map in

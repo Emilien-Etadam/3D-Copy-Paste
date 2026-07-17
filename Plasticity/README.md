@@ -41,8 +41,9 @@ paste-into-Plasticity channel suitable for arbitrary meshes.
 ## Exchanging exact CAD geometry with SolidWorks
 
 Meshes lose the B-rep. For Plasticity ↔ SolidWorks, use the **Parasolid
-side-channel**: export `.x_t` from Plasticity to the `ODSolidData.x_t`
-convention path — see [`SolidWorks/`](../SolidWorks/) (roadmap phase 8).
+side-channel** (`ODSolidData.x_t`, FORMAT.md §7): export/import `.x_t` from
+Plasticity at the convention path, macros on the SolidWorks side — see
+[`SolidWorks/README.md`](../SolidWorks/README.md).
 
 ## Protocol credit
 

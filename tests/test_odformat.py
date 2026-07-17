@@ -2,7 +2,7 @@
 #
 # Run: python3 tests/test_odformat.py
 # Exit code 0 = pass. Covers the reader-conformance checklist of
-# docs/FORMAT.md section 7 against the pure-Python odformat module shared with
+# docs/FORMAT.md section 8 against the pure-Python odformat module shared with
 # the Blender extension.
 
 import importlib.util
