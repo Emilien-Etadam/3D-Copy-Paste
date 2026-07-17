@@ -98,6 +98,30 @@ reported with an `OD_CopyPasteExternal:` prefix.
     variable) — the file must appear in that directory, and the transfer
     must work across both applications.
 
+## Maya 2022+ — manual checklist
+
+Run the scripts from the Script Editor (Python 3). Console messages are
+prefixed `OD_CopyPasteExternal:`.
+
+1. **Copy a cube**: `polyCube -w 100 -h 100 -d 100` (cm), select, run the
+   export. The file must contain coordinates around `0.5` (meters) and
+   `VERTICES:8`.
+2. **UV sets**: copy a mesh with two UV sets; both must appear as `UV:`
+   sections with per-face-corner samples.
+3. **Skin weights**: copy a skinned mesh; one `WEIGHT` section per joint.
+4. **Blend shapes**: copy a mesh with blendShape targets; sparse `MORPH`
+   sections (`None` on untouched vertices).
+5. **Paste golden cube** (`tests/golden/cube_uv.txt`): 1 m cube (100 cm),
+   UVs correct in the UV Editor, no rotation (top face up — F16).
+6. **Paste weighted plane**: plane with a `Checker` lambert, an
+   `ODCopyMorphs` blendShape with a `bump` target raising the center
+   vertex, and a console note listing the two skipped weight maps.
+7. **N-gon paste**: a file with a 6-index polygon must produce a single
+   Maya n-gon face.
+8. **Maya↔Maya round-trip**: copy any mesh, paste it — geometry, UVs and
+   orientation must match the original exactly.
+9. **`OD_CPE_PATH`**: set it, restart Maya, verify both scripts use it.
+
 ## Cross-application spot checks
 
 With any two of {Blender, Rhino, a legacy app}: copy a cube with a UV map in
