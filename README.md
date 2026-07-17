@@ -39,6 +39,7 @@ correctly — backward compatibility is a hard requirement of this fork.
 | **Rhino 8** | [`Rhino/`](Rhino/) | verts, polys (n-gons via Rhino ngons), materials on copy, UVs, model-unit conversion | CPython ScriptEditor scripts; Breps copy through their render mesh with a warning. See [`Rhino/README.md`](Rhino/README.md) |
 | **Maya** | [`Maya/`](Maya/) | verts, polys, weights (vertex colors) | Legacy scripts with targeted fixes (valid headers, Python 3, spec-conformant axes) |
 | **Houdini** | [`Houdini/`](Houdini/) | verts, polys, weights, UVs | Legacy shelf tools with targeted fixes (Python 3 paste, shared temp path) |
+| **Any OBJ application** | [`tools/`](tools/) | verts, polys (n-gons), materials, UVs | Cross-platform `od_obj.py` CLI + `od_watch.py` live OBJ mirror — Plasticity, Light Tracer Render, ZBrush/Substance/3D-Coat workflows. See [`tools/README.md`](tools/README.md) |
 
 Everything else (ZBrush, C4D, 3ds Max, Sketchup, Moi3D, Substance Painter,
 3D-Coat, Unity) lives **unmodified** in [`legacy/`](legacy/) pending repair —

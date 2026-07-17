@@ -28,13 +28,18 @@ jobs:
             tests/test_blender_roundtrip.py \
             tests/test_odformat.py \
             tests/test_rhino_mock.py \
-            tests/test_maya_mock.py
+            tests/test_maya_mock.py \
+            tests/test_obj_converter.py \
+            tools/od_obj.py \
+            tools/od_watch.py
       - name: odformat unit tests
         run: python tests/test_odformat.py
       - name: Rhino scripts unit tests (mocked RhinoCommon)
         run: python tests/test_rhino_mock.py
       - name: Maya scripts unit tests (stubbed OpenMaya)
         run: python tests/test_maya_mock.py
+      - name: OBJ converter tests
+        run: python tests/test_obj_converter.py
 
   blender-roundtrip:
     name: Blender 4.2 headless round-trip
