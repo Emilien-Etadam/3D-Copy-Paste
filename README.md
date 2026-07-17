@@ -46,8 +46,9 @@ correctly — backward compatibility is a hard requirement of this fork.
 | **Cinema 4D R23+** | [`C4D/`](C4D/) | verts, polys (n-gon fan), materials, UVs, weight maps (Vertex Map tags) | Native Python scripts, no OBJ dialog. See [`C4D/README.md`](C4D/README.md) |
 | **3ds Max 2021+** | [`3DSMax/`](3DSMax/) | verts, triangles, materials (MultiMaterial), UVs, unit conversion | pymxs scripts (MaxPlus is gone). See [`3DSMax/README.md`](3DSMax/README.md) |
 | **ZBrush 2021+** | [`ZBrush/`](ZBrush/) | verts, polys (n-gons), surface names, UVs (via OBJ) | ZScript + cross-platform Python converter (no more flagged `.exe`). See [`ZBrush/README.md`](ZBrush/README.md) |
+| **SketchUp 2017+** | [`Sketchup/`](Sketchup/) | verts, faces (n-gons), materials, UVs, inch/meter conversion | Full Ruby extension (copy **and** paste). See [`Sketchup/README.md`](Sketchup/README.md) |
 
-Everything else (Sketchup, Moi3D, Substance Painter,
+Everything else (Moi3D, Substance Painter,
 3D-Coat, Unity) lives **unmodified** in [`legacy/`](legacy/) pending repair —
 see [`legacy/README.md`](legacy/README.md) for the state and plan of each.
 Implementations for discontinued applications (XSI, Modo, Lightwave) were

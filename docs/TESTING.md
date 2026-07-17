@@ -210,6 +210,20 @@ Automated coverage: the CI job *Godot headless round-trip* runs
 5. macOS: the `.sh` wrappers must be executable (`chmod +x` if the copy
    lost the bit).
 
+## SketchUp — manual checklist
+
+1. Install `OD_CopyPasteExternal.rb` in the Plugins folder; both entries
+   appear in the Extensions menu.
+2. Paste the golden cube: an `ODCopy` group appears, **right way up** (the
+   legacy snippet pasted upside down) and at 1 m (~39.4"), faces oriented
+   outward (no blue back faces), `Default` material.
+3. Copy a textured box (faces selected): the file has meters-scale
+   coordinates, the material name, and UV samples; paste it in Blender —
+   texture placement must survive.
+4. Paste the weighted plane: `Checker` material; the Ruby console lists the
+   skipped weight/morph maps.
+5. Paste a file containing a planar n-gon: a single face, not a fan.
+
 ## Cross-application spot checks
 
 With any two of {Blender, Rhino, a legacy app}: copy a cube with a UV map in
